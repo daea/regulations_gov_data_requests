@@ -1,26 +1,23 @@
-import requests
+import requests, json
 
 # def api key here (locally)
 key = 'DIgcyfb87KQN1S6R72385xkxjNWAPAxWpIZcfoTz'
 
 #endpoint address here
-endpoint_part1 = 'https://api.data.gov:443/regulations/v3/document.json?api_key='
-endpoint_part2 = '&documentId='
+endpoint = 'https://api.data.gov:443/regulations/v3/document.json?api_key=DIgcyfb87KQN1S6R72385xkxjNWAPAxWpIZcfoTz&documentId=APHIS-2018-0034-'
 
-#build docketCommentList
+#build docketCommentList, short list for now
+commentNum = 6191
 
-#dummylist for testing
-docketCommentList = ['APHIS-2018-0034-3984',
-    'APHIS-2018-0034-3983',
-    'APHIS-2018-0034-1197',
-    'APHIS-2018-0034-5475',
-    'APHIS-2018-0034-5376',
-    'APHIS-2018-0034-1195']
+# documentId format APHIS-2018-####-####
+    # numbers are padded on the left
+docketCommentList = [str(number).zfill(4) for number in range(1,commentNum+1)]
 
+# 
 for comment in docketCommentList:
-    endpoint = endpoint_part1 + key + endpoint_part2 + comment
-    #print(endpoint)
-    r = requests.get(url = endpoint)
-    #print(r)
+    url = ''
+    url = endpoint + comment
+    #r = requests.get(url = endpoint)
     data = r.json()
-    #print(data)
+    parsed = json.loads(data)
+    print(data)
